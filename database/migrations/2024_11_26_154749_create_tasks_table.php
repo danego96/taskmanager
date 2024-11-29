@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('priority');
             $table->string('status');
-            $table->date('endDate');
+            $table->date('end_date');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
