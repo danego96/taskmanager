@@ -11,9 +11,11 @@
             class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div class="flex items-center justify-between mb-4">
                 <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{{$task->subject}}</h5>
-                <a href="{{route('tasks.edit',$task->id)}}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                    Edit task
-                </a>
+                <form method="POST" action="{{route('tasks.destroy', $task->id)}}">
+                    @csrf
+                    @method('DELETE')
+                   <button type="submit" class="btn btn-danger float-right">Delete</button>
+                </form>
             </div>
             <div class="flow-root">
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -37,6 +39,9 @@
                         </div>
                         </div>
                     </div>
+                    <a href="{{route('tasks.edit',$task->id)}}" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+                        Edit task
+                    </a>
                 </div>
             </div>
         </div>
