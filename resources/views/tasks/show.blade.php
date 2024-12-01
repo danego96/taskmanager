@@ -34,7 +34,7 @@
                                 Status: {{$task->status}}
                             </div>
                             <div class="flex min-w-100 items-center text-base font-semibold text-gray-900 dark:text-white">
-                              Priority:  {{$task->priority}}
+                              Priority:&nbsp; <x-priority-badge :task="$task" />
                             </div>
                         </div>
                         </div>
