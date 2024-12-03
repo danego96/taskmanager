@@ -8,17 +8,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Task $task)
+    public function index(Task $task, Request $request)
     {
-        $tasks = Task::with('user')->paginate(5);
+        $priorities = ['low', 'medium', 'high', 'urgent'];
+        $statuses = ['draft', 'open', 'in progress', 'completed'];
 
-        return view('tasks.index', compact(['tasks']));
+        $tasks = Task::with('user')
+            ->when($request->query('priority'), fn(Builder $query, $priority) => $query->where('priority', $priority))
+            ->when($request->query('status'), fn(Builder $query, $status) => $query->where('status', $status))
+            ->paginate(5);
+
+        return view('tasks.index', compact(['tasks', 'priorities', 'statuses']));
     }
 
     /**

@@ -11,12 +11,43 @@
             <div class="mt-3">
                 <a href="{{ route('tasks.create') }}"><button type="button" class="btn btn-primary">Add task</button></a>
             </div>
-            @foreach ($tasks as $task)
-                <div class="mt-3">
-                    <x-task-card :task="$task" />
-                </div>
-            @endforeach
-            {{ $tasks->links() }}
+            <div class="mt-3">
+                <form method="GET" action="{{ route('tasks.index') }}">
+                    <div class="inline-block">
+                        <select name="priority" id="status" class="dropdown">
+                            <option selected value="" class="btn-secondary dropdown-toggle">Select Status</option>
+                            @foreach ($priorities as $priority)
+                                <option class="dropdown-item" value="{{ $priority }}"
+                                    {{ request('priority') === $priority ? 'selected' : '' }}>{{ $priority }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="inline-block">
+                        <select name="status" id="status" class="dropdown">
+                            <option selected value="" class="btn-secondary dropdown-toggle">Select Status</option>
+                            @foreach ($statuses as $status)
+                                <option class="dropdown-item" value="{{ $status }}"
+                                    {{ request('status') === $status ? 'selected' : '' }}>{{ $status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="inline-block">
+                        <button type="submit" class="btn btn-dark">Select Filters</button>
+                    </div>
+                    @if (request('status') || request('priority'))
+                        <div class="inline-block">
+                            <a href="{{ route('tasks.index') }}" class="ml-3 text-red-500">Reset filters</a>
+                        </div>
+                    @endif
+
+                </form>
+                @foreach ($tasks as $task)
+                    <div class="mt-3">
+                        <x-task-card :task="$task" />
+                    </div>
+                @endforeach
+                {{ $tasks->links() }}
+            </div>
         </div>
-    </div>
 </x-app-layout>
