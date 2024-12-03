@@ -15,7 +15,7 @@
                 <form method="GET" action="{{ route('tasks.index') }}">
                     <div class="inline-block">
                         <select name="priority" id="status" class="dropdown">
-                            <option selected value="" class="btn-secondary dropdown-toggle">Select Status</option>
+                            <option selected value="" class="btn-secondary dropdown-toggle">Select Priority</option>
                             @foreach ($priorities as $priority)
                                 <option class="dropdown-item" value="{{ $priority }}"
                                     {{ request('priority') === $priority ? 'selected' : '' }}>{{ $priority }}
