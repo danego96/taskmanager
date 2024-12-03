@@ -42,6 +42,15 @@
                     @endif
 
                 </form>
+
+                <form method="GET" action="{{route('tasks.index')}}">
+                     <select name="sort">
+                      <option value="status" @if($sort === 'status') selected @endif>Status</option>
+                      <option value="end_date" @if($sort === 'end_date') selected @endif >Date</option>
+                      <option value="priority"@if($sort === 'priority') selected @endif>Priority</option>
+                     </select>
+                     <button type="submit">Sort</button>
+                    </form>
                 @foreach ($tasks as $task)
                     <div class="mt-3">
                         <x-task-card :task="$task" />
