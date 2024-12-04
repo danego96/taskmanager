@@ -21,22 +21,23 @@ class TaskController extends Controller
         $statuses = ['draft', 'open', 'in progress', 'completed'];
 
 
-        $sort = $request->input('sort', 'default');
+        $sort = $request->input('sort', '');
+        $filters = $request->only(['priority', 'status']);
         $tasks = Task::with('user')
             ->when($request->query('priority'), fn(Builder $query, $priority) => $query->where('priority', $priority))
             ->when($request->query('status'), fn(Builder $query, $status) => $query->where('status', $status));
-    
 
-            match ($sort) {
-                'end_date' => $tasks->orderBy('end_date', 'asc'),
-                'status' => $tasks->orderBy('status', 'asc'),
-                'priority' => $tasks->orderBy('priority', 'asc'),
-                default => $tasks->orderBy('id', 'asc'),
-            };
 
-           $tasks = $tasks->paginate(5)->appends(['sort' => $sort]);
+        match ($sort) {
+            'end_date' => $tasks->orderBy('end_date', 'asc'),
+            'status' => $tasks->orderBy('status', 'asc'),
+            'priority' => $tasks->orderBy('priority', 'asc'),
+            default => $tasks->orderBy('id', 'asc'),
+        };
 
-        return view('tasks.index', compact(['tasks', 'priorities', 'statuses', 'sort']));
+        $tasks = $tasks->paginate(5)->appends($request->all());
+
+        return view('tasks.index', compact(['tasks', 'priorities', 'statuses', 'sort', 'filters']));
     }
 
     /**
