@@ -20,6 +20,8 @@ class TaskCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.task-card');
+        return view('components.task-card',[
+            'created_by' => $this->task->user->name,
+        ]);
     }
 }

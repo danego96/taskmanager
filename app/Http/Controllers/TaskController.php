@@ -20,12 +20,18 @@ class TaskController extends Controller
         $priorities = ['low', 'medium', 'high', 'urgent'];
         $statuses = ['draft', 'open', 'in progress', 'completed'];
 
-
+        $created_by = $request->query('created_by');
         $sort = $request->input('sort', '');
         $filters = $request->only(['priority', 'status']);
         $tasks = Task::with('user')
             ->when($request->query('priority'), fn(Builder $query, $priority) => $query->where('priority', $priority))
-            ->when($request->query('status'), fn(Builder $query, $status) => $query->where('status', $status));
+            ->when($request->query('status'), fn(Builder $query, $status) => $query->where('status', $status))
+            ->when($created_by, function (Builder $query, $created_by) {
+                $query->whereHas('user', function (Builder $query) use ($created_by) {
+                    $query->where('name', $created_by);
+                });
+            });
+
 
 
         match ($sort) {
@@ -37,7 +43,7 @@ class TaskController extends Controller
 
         $tasks = $tasks->paginate(5)->appends($request->all());
 
-        return view('tasks.index', compact(['tasks', 'priorities', 'statuses', 'sort', 'filters']));
+        return view('tasks.index', compact(['tasks', 'priorities', 'statuses', 'sort', 'filters', 'created_by']));
     }
 
     /**
