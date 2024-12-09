@@ -103,13 +103,18 @@ class TaskController extends Controller
         return Redirect::route('tasks.show', compact('task'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Task $task)
     {
         $task->delete();
 
         return Redirect::route('tasks.index');
     }
+
+    public function search(Request $request)
+{
+    $q = $request->input('q');
+    $results = Task::where('subject', 'like', "%$q%")->get();
+
+    return view('tasks.search', compact('results'));
+}
 }
