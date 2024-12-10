@@ -111,10 +111,17 @@ class TaskController extends Controller
     }
 
     public function search(Request $request)
-{
-    $q = $request->input('q');
-    $results = Task::where('subject', 'like', "%$q%")->get();
+    {
+        $q = $request->input('q');
+        $tasks = Task::with('user')
+            ->where('subject', 'like', "%$q%")
+            ->orWhere('description', 'like', "%$q%")
+            ->orwhereHas('user', function (Builder $query) use ($q) {
+                $query->where('name', 'like', "%$q%");
+            });
 
-    return view('tasks.search', compact('results'));
-}
+        $tasks = $tasks->paginate(5)->appends($request->all());
+
+        return view('tasks.search', compact('tasks'));
+    }
 }
