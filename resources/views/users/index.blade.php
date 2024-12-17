@@ -1,4 +1,4 @@
-@section('title', 'Dashboard')
+@section('title', 'Users')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -22,7 +22,7 @@
                       <tr>
                         <th scope="row">{{$user->id}}</th>
                         <td>{{$user->name}}</td>
-                        <td><a href="">View Profile</a></td>
+                        <td><a href="{{route('users.show', $user->id)}}">View Profile</a></td>
                       </tr>
                       @endforeach
                     </tbody>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,12 +12,6 @@ use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
-    public function index(): View
-    {
-        $users = User::paginate(5);
-        return view('profile.index', compact('users'));
-    }
-
     /**
      * Display the user's profile form.
      */
