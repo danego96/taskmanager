@@ -37,16 +37,17 @@
                         <a href="{{ route('tasks.index') }}" class="ml-3 text-red-500">Reset filters</a>
                         @endif
                     </form>
-                    </div>
-                    <div class="inline-block float-right">
+                </div>
+                <div class="inline-block float-right">
                     <form method="GET" action="{{route('tasks.index')}}">
                         <select name="sort">
                             <option value="status" @if($sort==='status' ) selected @endif>Status</option>
                             <option value="end_date" @if($sort==='end_date' ) selected @endif>Date</option>
                             <option value="priority" @if($sort==='priority' ) selected @endif>Priority</option>
                         </select>
-                        <input type="hidden" name="priority" value="{{ request('priority') }}">
-                        <input type="hidden" name="status" value="{{ request('status') }}">
+                        @foreach(request()->except('sort') as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                        @endforeach
                         <button type="submit">Sort</button>
                     </form>
                 </div>
