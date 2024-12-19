@@ -9,6 +9,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-3">
+              
                 <table class="table">
                     <thead>
                       <tr>
@@ -20,7 +21,7 @@
                     <tbody>
                         @foreach ($users as $user)
                       <tr>
-                        <th scope="row">{{$user->id}}</th>
+                        <th scope="row">{{$user->id}} @if($user->hasRole('admin')) <span class="text-red-500">A</span> @endif</th>
                         <td>{{$user->name}}</td>
                         <td><a href="{{route('users.show', $user->id)}}">View Profile</a></td>
                       </tr>

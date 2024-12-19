@@ -11,21 +11,23 @@
             class="max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div class="flex items-center justify-between mb-4">
                 <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{{ $task->subject }}</h5>
+                @if ($task ->user_id == Auth::user()->id || Auth::user()->hasRole('admin'))
                 <form method="POST" action="{{ route('tasks.destroy', $task->id) }}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger float-right">Delete</button>
                 </form>
+                @endif
             </div>
             <div class="flow-root">
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     <div class="py-3 sm:py-4">
                         <div class="flex items-center">
                             <div class="flex-1 min-w-0 ms-4">
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">
                                     {{ $task->description }}
                                 </p>
-                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                <p class="mt-3 text-sm text-gray-500 truncate dark:text-gray-400">
                                     {{ $task->end_date }}
                                 </p>
                             </div>
@@ -41,10 +43,12 @@
                             </div>
                         </div>
                     </div>
+                    @if ($task ->user_id == Auth::user()->id)
                     <a href="{{ route('tasks.edit', $task->id) }}"
                         class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                         Edit task
-                    </a>
+                    </a>                      
+                    @endif
                 </div>
             </div>
         </div>

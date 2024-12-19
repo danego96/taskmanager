@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/user/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::put('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
 });
 
 require __DIR__.'/auth.php';
