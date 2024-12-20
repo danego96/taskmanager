@@ -76,7 +76,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('tasks.show', compact('task'));
+        $users = User::all();
+        return view('tasks.show', compact(['task', 'users']));
     }
 
     /**
@@ -123,5 +124,13 @@ class TaskController extends Controller
         $tasks = $tasks->paginate(5)->appends($request->all());
 
         return view('tasks.search', compact('tasks'));
+    }
+
+    public function updateUser(Request $request, Task $task)
+    {
+        $task->user_id = $request->input('user_id');
+        $task->update();
+
+        return redirect()->route('users.index');
     }
 }
